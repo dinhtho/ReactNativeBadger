@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, Image, View, NativeModules, TouchableOpacity } from 'react-native'
+import { ScrollView, Text, Image, View, NativeModules, TouchableOpacity, ToastAndroid } from 'react-native'
 import { Images } from '../Themes'
 const RNBadgerAndroid = NativeModules.RNBadgerAndroid
 // Styles
@@ -15,20 +15,39 @@ export default class LaunchScreen extends Component {
             height: 50, width: '100%', backgroundColor: 'red'
             , justifyContent: 'center', alignItems: 'center'
           }}
-          onPress={() => RNBadgerAndroid.setBadge(4)}>
+          onPress={this.setBadge}>
           <Text>Add Badge</Text>
         </TouchableOpacity>
-        
+
         <TouchableOpacity
           style={{
             marginTop: 30,
             height: 50, width: '100%', backgroundColor: 'red'
             , justifyContent: 'center', alignItems: 'center'
           }}
-          onPress={() => RNBadgerAndroid.removeBadge()} >
+          onPress={this.removeBadge} >
           <Text>Remove Badge</Text>
         </TouchableOpacity>
       </View>
     )
+  }
+  setBadge = () => {
+    RNBadgerAndroid.setBadge(4).then((result) => {
+      if (result) {
+        ToastAndroid.show('successful', ToastAndroid.SHORT)
+      } else {
+        ToastAndroid.show('failed', ToastAndroid.SHORT)
+      }
+    })
+  }
+
+  removeBadge = () => {
+    RNBadgerAndroid.removeBadge().then((result) => {
+      if (result) {
+        ToastAndroid.show('successful', ToastAndroid.SHORT)
+      } else {
+        ToastAndroid.show('failed', ToastAndroid.SHORT)
+      }
+    })
   }
 }
